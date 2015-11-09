@@ -12,6 +12,7 @@ double y0=10, v0=0, alpha=0, omega=.1;
 arg<2> y{y0,-.1};
 double tau=0;
 double t=0, T=200;
+double da=0;
 constexpr double dt=.01;
 
 void echo(mode m, double tau, double t, arg<2> y)
@@ -40,7 +41,7 @@ int main(int argc, char**argv)
 		case 'u': v0=-atof(optarg); break;
 		case 't': tau=atof(optarg); break;
 		case 'T': T=atof(optarg); break;
-		//case 'a': alpha=atof(optarg); break;
+		case 'a': da=atof(optarg); break;
 		//case 'w': omega=atof(optarg); break;
 		case 'X': mod=mode::X; break;
 		case 'Y': mod=mode::Y; break;
@@ -58,7 +59,7 @@ int main(int argc, char**argv)
 			[=](double, arg<2> _y) {
 				arg<2> r;
 				r[0]=_y[1];
-				r[1]=(_y[1]+v0)*(_y[1]+v0)/2/(_y[0]+tau*(_y[1]+v0));
+				r[1]=(_y[1]+v0)*(_y[1]+v0)/2/(_y[0]+tau*(_y[1]+v0))-da;
 				//if(r[1] > 1) r[1]=1;
 				//else if(r[1] < -1) r[1]=-1;
 				return r;

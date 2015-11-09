@@ -1,0 +1,10 @@
+#!/usr/bin/env perl
+
+$| = 1;
+
+while(<>) {
+	my ($a,$u,$t)=split /\s+/;
+	system "traf -X -u$u -a$a -t$t";
+	print "a=$a u=$u tau=$t\n";
+}
+
