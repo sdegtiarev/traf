@@ -4,6 +4,7 @@
 //#include <math.h>
 #include "runge_kutta.h"
 #include "arithn.h"
+static void usage();
 
 enum class mode { ALL, X, V, A, Y, Z };
 
@@ -24,7 +25,7 @@ void echo(mode m, double tau, double t, arg<2> y)
 		case mode::Y:   printf("%-6.3lf %-8.4lf\n", t, y[0]); break;
 		case mode::X:   printf("%-6.3lf %-8.4lf\n", t, y[0]+v0*t); break;
 		case mode::V:   printf("%-6.3lf %-8.4lf\n", t, y[1]+v0); break;
-		case mode::A:   printf("%-6.3lf %-8.4lf\n", t, a*1000); break;
+		case mode::A:   printf("%-6.3lf %-8.4lf\n", t, a); break;
 	}
 }
 
@@ -49,12 +50,12 @@ int main(int argc, char**argv)
 		case 'V': mod=mode::V; break;
 		case 'A': mod=mode::A; break;
 		case 'h':
-		default : return 1;
+		default : usage(); return 1;
 	}
 	
 	echo(mod, tau, t, y);
 	//while(t < T && y[0] > 0 && y[0] < y0*10) {
-	while(t < T && y[0] < y0*50) {
+	while(t < T && y[0] < y0*5) {
 		arg<2> h=RK::step(t, y,
 			[=](double, arg<2> _y) {
 				arg<2> r;
@@ -75,3 +76,9 @@ int main(int argc, char**argv)
 }
 
 
+static void usage()
+{
+	printf(
+	"Syntax: traf [-X|V|A|Y|Z] [-{x|v|u|a|t} <val>] [-T <val>] [-h]\n"
+	);
+}

@@ -3,8 +3,13 @@
 $| = 1;
 
 while(<>) {
-	my ($a,$u,$t)=split /\s+/;
-	system "traf -X -u$u -a$a -t$t";
-	print "a=$a u=$u tau=$t\n";
+#	my ($a,$u,$t)=split /\s+/;
+#	system "traf -X -u$u -a$a -t$t";
+#	print "a=$a u=$u tau=$t\n";
+	chomp;
+	system "traf -X -T500 -t1 -a$_";
+	print "a=$_\n";
 }
+
+system "pkill ndtv";
 
